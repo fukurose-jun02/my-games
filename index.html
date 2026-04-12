@@ -9,11 +9,12 @@
       --accent: #0a84ff;
       --bg: #000000;
       --card-bg: #1c1c1e;
+      --card-bg2: #2c2c2e;
       --text-primary: #ffffff;
       --text-secondary: #8e8e93;
-      --border: rgba(255,255,255,0.1);
+      --border: rgba(255,255,255,0.08);
       --radius-lg: 18px;
-      --radius-icon: 16px;
+      --radius-icon: 14px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,7 +28,7 @@
 
     /* ---- Header ---- */
     header {
-      background: rgba(242,242,247,0.85);
+      background: rgba(28,28,30,0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
@@ -43,13 +44,11 @@
       align-items: baseline;
       justify-content: space-between;
     }
-    /* ========================================
-       サイト名を変更してください
-       ======================================== */
     .site-name {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
       letter-spacing: -0.5px;
+      color: var(--text-primary);
     }
     .header-sub {
       font-size: 13px;
@@ -60,130 +59,140 @@
     .container {
       max-width: 800px;
       margin: 0 auto;
-      padding: 24px 20px 60px;
+      padding: 20px 16px 60px;
     }
 
-    /* ---- Hero Banner ---- */
-    .hero {
+    /* ---- Hero Card (2-part: banner + info) ---- */
+    .hero-card {
       border-radius: var(--radius-lg);
       overflow: hidden;
-      margin-bottom: 32px;
-      cursor: pointer;
-      position: relative;
-      aspect-ratio: 16/9;
-      display: flex;
-      align-items: flex-end;
+      background: var(--card-bg);
+      margin-bottom: 28px;
       text-decoration: none;
       color: inherit;
+      display: block;
     }
-    .hero-bg {
+
+    /* Banner area (image/gradient) */
+    .hero-banner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-banner-bg {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
       transition: transform 0.4s ease;
     }
-    .hero:hover .hero-bg { transform: scale(1.03); }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0) 30%,
-        rgba(0,0,0,0.65) 100%
-      );
-    }
-    .hero-body {
+    .hero-card:hover .hero-banner-bg { transform: scale(1.03); }
+    .hero-banner-emoji {
       position: relative;
       z-index: 1;
-      padding: 20px 22px 22px;
-      width: 100%;
-    }
-    .hero-eyebrow {
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.75);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
-    }
-    .hero-title {
-      font-size: 26px;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.2;
-      letter-spacing: -0.3px;
-    }
-    .hero-subtitle {
-      font-size: 14px;
-      color: rgba(255,255,255,0.8);
-      margin-top: 4px;
+      font-size: 80px;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.4));
     }
 
-    .hero-app-row {
+    /* Info area below banner */
+    .hero-info {
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 6px;
+    }
+    .hero-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 4px;
+      word-break: auto-phrase;
+    }
+    .hero-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .hero-footer-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-top: 14px;
     }
     .hero-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 11px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
       overflow: hidden;
       flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.15);
+      background: var(--card-bg2);
+      border: 1px solid var(--border);
     }
     .hero-icon img { width: 100%; height: 100%; object-fit: cover; }
-    .hero-icon .emoji { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-
-    .hero-app-info { flex: 1; }
-    .hero-app-name { font-size: 14px; font-weight: 600; color: #fff; }
-    .hero-app-desc { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
-
-    .btn-hero {
+    .hero-icon .emoji {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    .hero-meta { flex: 1; min-width: 0; }
+    .hero-meta-name {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .hero-meta-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 1px;
+    }
+    .btn-get {
+      flex-shrink: 0;
       padding: 7px 18px;
       border-radius: 20px;
-      background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(10px);
+      background: var(--accent);
       color: #fff;
       font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       white-space: nowrap;
-      border: none;
-      cursor: pointer;
-      transition: background 0.15s;
+      transition: opacity 0.15s;
     }
-    .btn-hero:hover { background: rgba(255,255,255,0.38); }
-
-    /* Hero placeholder (no image) */
-    .hero-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 100px;
+    .btn-get:hover { opacity: 0.82; }
+    .btn-get.soon {
+      background: var(--card-bg2);
+      color: var(--text-secondary);
+      pointer-events: none;
     }
 
     /* ---- Section ---- */
-    .section { margin-bottom: 10px; }
+    .section { margin-bottom: 8px; }
     .section-header {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      padding: 0 2px;
     }
     .section-title {
       font-size: 20px;
       font-weight: 700;
-    }
-    .section-more {
-      font-size: 14px;
-      color: var(--accent);
-      text-decoration: none;
     }
 
     /* ---- App List ---- */
@@ -196,44 +205,48 @@
     .app-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
+      gap: 12px;
+      padding: 13px 16px;
       text-decoration: none;
       color: inherit;
-      transition: background 0.12s;
       position: relative;
+      transition: background 0.12s;
     }
+    .app-row:active { background: rgba(255,255,255,0.04); }
     .app-row:not(:last-child)::after {
       content: "";
       position: absolute;
       bottom: 0;
-      left: 78px;
+      left: 92px;
       right: 0;
       height: 1px;
       background: var(--border);
     }
-    .app-row:hover { background: rgba(0,0,0,0.03); }
 
     .app-row-num {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--text-secondary);
-      width: 22px;
+      width: 20px;
       text-align: center;
       flex-shrink: 0;
     }
 
     .app-row-icon {
-      width: 60px;
-      height: 60px;
+      width: 58px;
+      height: 58px;
       border-radius: var(--radius-icon);
       overflow: hidden;
       flex-shrink: 0;
-      background: var(--bg);
+      background: var(--card-bg2);
       border: 1px solid var(--border);
     }
     .app-row-icon img { width: 100%; height: 100%; object-fit: cover; }
-    .app-row-icon .emoji { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+    .app-row-icon .emoji {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
 
     .app-row-info { flex: 1; min-width: 0; }
     .app-row-name {
@@ -244,26 +257,30 @@
       text-overflow: ellipsis;
     }
     .app-row-genre {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-secondary);
       margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      font-weight: 500;
     }
     .app-row-desc {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-secondary);
       margin-top: 3px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      line-height: 1.4;
     }
 
     .app-row-action { flex-shrink: 0; }
     .btn-view {
       display: inline-block;
-      padding: 6px 16px;
+      padding: 6px 15px;
       border-radius: 20px;
-      background: #e5e5ea;
+      background: #2c2c2e;
       color: var(--accent);
       font-size: 14px;
       font-weight: 600;
@@ -271,46 +288,25 @@
       transition: background 0.15s;
       white-space: nowrap;
     }
-    .btn-view:hover { background: #d1d1d6; }
+    .btn-view:active { background: #3a3a3c; }
     .btn-view.disabled {
       color: var(--text-secondary);
       pointer-events: none;
     }
-
-    /* ---- Screenshots strip ---- */
-    .screenshots-section { margin-bottom: 32px; }
-    .screenshots-scroll {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scrollbar-width: none;
-    }
-    .screenshots-scroll::-webkit-scrollbar { display: none; }
-    .screenshot-item {
-      flex-shrink: 0;
-      width: 200px;
-      height: 355px;
-      border-radius: 14px;
-      overflow: hidden;
-      background: #e8e8ed;
-      border: 1px solid var(--border);
-    }
-    .screenshot-item img { width: 100%; height: 100%; object-fit: cover; }
-    .screenshot-item .emoji { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 60px; }
 
     /* ---- Footer ---- */
     footer {
       text-align: center;
       padding: 28px 20px;
       color: var(--text-secondary);
-      font-size: 13px;
+      font-size: 12px;
       border-top: 1px solid var(--border);
     }
 
-    @media (max-width: 600px) {
-      .hero-title { font-size: 20px; }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 18px; }
       .site-name { font-size: 22px; }
+      .btn-get { padding: 7px 14px; font-size: 13px; }
     }
   </style>
 </head>
@@ -413,13 +409,6 @@ const GAMES = [
    以下は描画ロジックです。通常は編集不要です。
    ============================================================= */
 
-function iconHtml(game, size = 60, radiusClass = "app-row-icon") {
-  const inner = game.icon
-    ? `<img src="${game.icon}" alt="${game.title}" />`
-    : `<div class="emoji">${game.iconEmoji || "🎮"}</div>`;
-  return `<div class="${radiusClass}">${inner}</div>`;
-}
-
 function renderHero(game) {
   if (!game) return "";
 
@@ -427,35 +416,39 @@ function renderHero(game) {
     ? `background-image: url('${game.heroImage}');`
     : `background: ${game.heroBgColor || "linear-gradient(135deg,#2c3e50,#4a6fa5)"};`;
 
-  const inner = game.heroImage
+  const bannerContent = game.heroImage
     ? ""
-    : `<div class="hero-placeholder">${game.iconEmoji || "🎮"}</div>`;
+    : `<div class="hero-banner-emoji">${game.iconEmoji || "🎮"}</div>`;
 
-  const storeBtn = game.appStoreUrl
-    ? `<a href="${game.appStoreUrl}" class="btn-hero" target="_blank" rel="noopener">表示</a>`
-    : `<span class="btn-hero" style="opacity:0.6;">近日公開</span>`;
-
-  const heroIconInner = game.icon
-    ? `<img src="${game.icon}" alt="" />`
+  const iconInner = game.icon
+    ? `<img src="${game.icon}" alt="${game.title}" />`
     : `<div class="emoji">${game.iconEmoji || "🎮"}</div>`;
 
+  const btn = game.appStoreUrl
+    ? `<a href="${game.appStoreUrl}" class="btn-get" target="_blank" rel="noopener" onclick="event.stopPropagation()">入手</a>`
+    : `<span class="btn-get soon">近日公開</span>`;
+
+  const href = game.appStoreUrl || "#";
+  const target = game.appStoreUrl ? '_blank' : '_self';
+  const onclick = game.appStoreUrl ? '' : 'onclick="return false;"';
+
   return `
-    <a class="hero" href="${game.appStoreUrl || '#'}" target="${game.appStoreUrl ? '_blank' : '_self'}" rel="noopener"
-       onclick="${game.appStoreUrl ? '' : 'return false;'}">
-      <div class="hero-bg" style="${bgStyle}"></div>
-      <div class="hero-overlay"></div>
-      ${inner}
-      <div class="hero-body">
-        <div class="hero-eyebrow">おすすめ</div>
+    <a class="hero-card" href="${href}" target="${target}" rel="noopener" ${onclick}>
+      <div class="hero-banner">
+        <div class="hero-banner-bg" style="${bgStyle}"></div>
+        ${bannerContent}
+      </div>
+      <div class="hero-info">
+        <div class="hero-badge">おすすめ</div>
         <div class="hero-title">${game.title}</div>
         <div class="hero-subtitle">${game.description}</div>
-        <div class="hero-app-row">
-          <div class="hero-icon">${heroIconInner}</div>
-          <div class="hero-app-info">
-            <div class="hero-app-name">${game.title}</div>
-            <div class="hero-app-desc">${game.genre} · ${game.platform}</div>
+        <div class="hero-footer-row">
+          <div class="hero-icon">${iconInner}</div>
+          <div class="hero-meta">
+            <div class="hero-meta-name">${game.title}</div>
+            <div class="hero-meta-sub">${game.genre} · ${game.platform}</div>
           </div>
-          ${storeBtn}
+          ${btn}
         </div>
       </div>
     </a>`;
@@ -463,8 +456,8 @@ function renderHero(game) {
 
 function renderList(games) {
   const rows = games.map((game, i) => {
-    const storeBtn = game.appStoreUrl
-      ? `<a href="${game.appStoreUrl}" class="btn-view" target="_blank" rel="noopener">表示</a>`
+    const btn = game.appStoreUrl
+      ? `<a href="${game.appStoreUrl}" class="btn-view" target="_blank" rel="noopener" onclick="event.stopPropagation()">表示</a>`
       : `<span class="btn-view disabled">近日公開</span>`;
 
     const iconInner = game.icon
@@ -480,7 +473,7 @@ function renderList(games) {
           <div class="app-row-genre">${game.genre}</div>
           <div class="app-row-desc">${game.description}</div>
         </div>
-        <div class="app-row-action">${storeBtn}</div>
+        <div class="app-row-action">${btn}</div>
       </div>`;
   }).join("");
 
@@ -495,9 +488,8 @@ function renderList(games) {
 
 function render() {
   const featured = GAMES.find(g => g.featured);
-  const all = GAMES;
   const container = document.getElementById("app");
-  container.innerHTML = renderHero(featured) + renderList(all);
+  container.innerHTML = renderHero(featured) + renderList(GAMES);
 }
 
 render();
