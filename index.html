@@ -352,55 +352,81 @@
 */
 const GAMES = [
   {
-    title: "サンプルゲーム 1",
+    title: "警察犬がにげろ！",
     genre: "アクション",
-    description: "スピード感あふれるアクションゲーム。世界中のプレイヤーとスコアを競い合おう！",
+    description: "追いかけてくる警察犬から逃げ切れ！スリル満点の追いかけっこゲーム。",
     icon: "",
-    iconEmoji: "⚔️",
+    iconEmoji: "🐕",
     heroImage: "",
-    heroBgColor: "linear-gradient(135deg, #c0392b, #8e44ad)",
+    heroBgColor: "linear-gradient(135deg, #1a3a5c, #2980b9)",
     screenshots: [],
-    platform: "iOS",
-    appStoreUrl: "https://apps.apple.com/",
+    platform: "ブラウザ",
+    appStoreUrl: "https://fukurose-jun02.github.io/caterpillar-game/",
     featured: true,
   },
   {
-    title: "サンプルゲーム 2",
+    title: "すみっこつみつみ！",
     genre: "パズル",
-    description: "シンプルで奥深いパズルゲーム。ついつい夢中になる中毒性。",
+    description: "すみっこのキャラたちを積み上げていく、ほっこり可愛いパズルゲーム。",
     icon: "",
-    iconEmoji: "🧩",
+    iconEmoji: "🧸",
     heroImage: "",
-    heroBgColor: "",
+    heroBgColor: "linear-gradient(135deg, #f6d365, #fda085)",
     screenshots: [],
-    platform: "iOS / Android",
-    appStoreUrl: "",
+    platform: "ブラウザ",
+    appStoreUrl: "https://fukurose-jun02.github.io/sumikko_tsumitsumi/",
     featured: false,
   },
   {
-    title: "サンプルゲーム 3",
+    title: "お姫様の塔登り",
+    genre: "アクション",
+    description: "お姫様を操作して高い塔を登り切れ！障害物を避けながら頂上を目指そう。",
+    icon: "",
+    iconEmoji: "👸",
+    heroImage: "",
+    heroBgColor: "linear-gradient(135deg, #f953c6, #b91d73)",
+    screenshots: [],
+    platform: "ブラウザ",
+    appStoreUrl: "https://fukurose-jun02.github.io/princess-tower/",
+    featured: false,
+  },
+  {
+    title: "スネークゲーム",
     genre: "カジュアル",
-    description: "暇な時間にサクッと楽しめるカジュアルゲーム。全年齢対象。",
+    description: "クラシックなスネークゲーム。エサを食べて長くなるほど難しくなる！",
     icon: "",
-    iconEmoji: "🎮",
+    iconEmoji: "🐍",
     heroImage: "",
-    heroBgColor: "",
+    heroBgColor: "linear-gradient(135deg, #134e5e, #71b280)",
     screenshots: [],
-    platform: "iOS",
-    appStoreUrl: "https://apps.apple.com/",
+    platform: "ブラウザ",
+    appStoreUrl: "https://fukurose-jun02.github.io/snake-game/",
     featured: false,
   },
   {
-    title: "サンプルゲーム 4",
-    genre: "RPG",
-    description: "壮大な世界を冒険するRPG。仲間と力を合わせてラスボスを倒せ！",
+    title: "キャンディラン",
+    genre: "ランゲーム",
+    description: "甘い世界を駆け抜けろ！キャンディを集めながら障害物を避けるランゲーム。",
     icon: "",
-    iconEmoji: "🐉",
+    iconEmoji: "🍬",
     heroImage: "",
-    heroBgColor: "",
+    heroBgColor: "linear-gradient(135deg, #fc5c7d, #6a3093)",
     screenshots: [],
-    platform: "iOS",
-    appStoreUrl: "",
+    platform: "ブラウザ",
+    appStoreUrl: "https://fukurose-jun02.github.io/candy-run/",
+    featured: false,
+  },
+  {
+    title: "バイクゲーム",
+    genre: "レーシング",
+    description: "バイクを操って障害物をかわしながら走り続けろ！スピード感抜群のレーシングゲーム。",
+    icon: "",
+    iconEmoji: "🏍️",
+    heroImage: "",
+    heroBgColor: "linear-gradient(135deg, #f7971e, #c0392b)",
+    screenshots: [],
+    platform: "ブラウザ",
+    appStoreUrl: "https://fukurose-jun02.github.io/bike-geme/",
     featured: false,
   },
 ];
@@ -425,7 +451,7 @@ function renderHero(game) {
     : `<div class="emoji">${game.iconEmoji || "🎮"}</div>`;
 
   const btn = game.appStoreUrl
-    ? `<a href="${game.appStoreUrl}" class="btn-get" target="_blank" rel="noopener" onclick="event.stopPropagation()">入手</a>`
+    ? `<a href="${game.appStoreUrl}" class="btn-get" target="_blank" rel="noopener" onclick="event.stopPropagation()">遊ぶ</a>`
     : `<span class="btn-get soon">近日公開</span>`;
 
   const href = game.appStoreUrl || "#";
@@ -457,7 +483,7 @@ function renderHero(game) {
 function renderList(games) {
   const rows = games.map((game, i) => {
     const btn = game.appStoreUrl
-      ? `<a href="${game.appStoreUrl}" class="btn-view" target="_blank" rel="noopener" onclick="event.stopPropagation()">表示</a>`
+      ? `<a href="${game.appStoreUrl}" class="btn-view" target="_blank" rel="noopener" onclick="event.stopPropagation()">遊ぶ</a>`
       : `<span class="btn-view disabled">近日公開</span>`;
 
     const iconInner = game.icon
