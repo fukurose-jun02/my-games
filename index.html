@@ -344,14 +344,26 @@
       align-items: center;
       justify-content: center;
     }
-    .card-banner-img {
+    /* 余白を埋めるぼかし背景（画像の比率が違っても帯が出ないように） */
+    .card-banner-blur {
       position: absolute;
       inset: 0;
       background-size: cover;
       background-position: center;
+      filter: blur(22px) saturate(1.25) brightness(0.75);
+      transform: scale(1.15);
       transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
     }
-    .card:hover .card-banner-img { transform: scale(1.06); }
+    .card:hover .card-banner-blur { transform: scale(1.22); }
+    /* 画像本体は全体を切らずに表示（contain） */
+    .card-banner-img {
+      position: absolute;
+      inset: 0;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 1;
+    }
 
     /* 装飾: ぼかした光の玉 */
     .orb {
@@ -724,7 +736,8 @@ function renderCards(games) {
   const grid = document.getElementById("grid");
   grid.innerHTML = games.map((g, i) => {
     const banner = g.heroImage
-      ? `<div class="card-banner-img" style="background-image:url('${esc(g.heroImage)}')"></div>`
+      ? `<div class="card-banner-blur" style="background-image:url('${esc(g.heroImage)}')"></div>
+         <div class="card-banner-img" style="background-image:url('${esc(g.heroImage)}')"></div>`
       : `<div class="card-banner-img" style="background:${g.gradient}"></div>
          <span class="orb orb-1" style="background:${g.accent}"></span>
          <span class="orb orb-2" style="background:${g.accent}"></span>
