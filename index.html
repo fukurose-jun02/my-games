@@ -344,7 +344,17 @@
       align-items: center;
       justify-content: center;
     }
-    /* 余白を埋めるぼかし背景（画像の比率が違っても帯が出ないように） */
+    .card-banner-img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
+      z-index: 1;
+    }
+    .card:hover .card-banner-img { transform: scale(1.06); }
+
+    /* fit:"contain" のカードだけ、画像全体を切らずに表示（端の文字が切れる画像用） */
     .card-banner-blur {
       position: absolute;
       inset: 0;
@@ -355,15 +365,11 @@
       transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
     }
     .card:hover .card-banner-blur { transform: scale(1.22); }
-    /* 画像本体は全体を切らずに表示（contain） */
-    .card-banner-img {
-      position: absolute;
-      inset: 0;
+    .card-banner-img.is-contain {
       background-size: contain;
       background-repeat: no-repeat;
-      background-position: center;
-      z-index: 1;
     }
+    .card:hover .card-banner-img.is-contain { transform: none; }
 
     /* 装飾: ぼかした光の玉 */
     .orb {
@@ -665,6 +671,7 @@ const GAMES = [
     description: "お姫様を操作して高い塔を登り切れ！障害物を避けながら頂上を目指そう。",
     iconEmoji: "👸",
     heroImage: "screenshots/princess.jpg?v=2",
+    fit: "contain",
     gradient: "linear-gradient(135deg, #8e2d63, #d64b8f)",
     accent: "#f06ab0",
     platform: "ブラウザ",
@@ -736,8 +743,10 @@ function renderCards(games) {
   const grid = document.getElementById("grid");
   grid.innerHTML = games.map((g, i) => {
     const banner = g.heroImage
-      ? `<div class="card-banner-blur" style="background-image:url('${esc(g.heroImage)}')"></div>
-         <div class="card-banner-img" style="background-image:url('${esc(g.heroImage)}')"></div>`
+      ? (g.fit === "contain"
+          ? `<div class="card-banner-blur" style="background-image:url('${esc(g.heroImage)}')"></div>
+             <div class="card-banner-img is-contain" style="background-image:url('${esc(g.heroImage)}')"></div>`
+          : `<div class="card-banner-img" style="background-image:url('${esc(g.heroImage)}')"></div>`)
       : `<div class="card-banner-img" style="background:${g.gradient}"></div>
          <span class="orb orb-1" style="background:${g.accent}"></span>
          <span class="orb orb-2" style="background:${g.accent}"></span>
