@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🐾 すみっコつみつみ！</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="ui">
+  <div class="ui-box">🐾 <span id="scoreDisplay">0</span>匹</div>
+  <div class="ui-box" id="timerDisplay">⏱ <span id="timerVal">30</span></div>
+  <div class="ui-box">🏆 <span id="highScoreDisplay">0</span></div>
+</div>
+<div id="warningMsg">⚠️ 落ちそう！</div>
+<canvas id="gameCanvas"></canvas>
+<div id="overlay">
+  <div class="panel" id="startPanel">
+    <span class="char-preview">🐾</span>
+    <h1>すみっコつみつみ！</h1>
+    <div class="sub">すみっコが落ちてくるよ！<br>ゆびでお皿をうごかして<br>そーっとキャッチして<br>たくさん積み上げよう！🍽️<br><strong>30びょう</strong>でなんびき乗せられるかな？</div>
+    <button class="btn" id="startBtn">▶ はじめる</button>
+  </div>
+  <div class="panel" id="resultPanel" style="display:none">
+    <span class="char-preview" id="resultChar">🎉</span>
+    <div class="score-label">乗せられたすみっコ</div>
+    <div class="big-score" id="finalScore">0</div>
+    <div class="score-label">匹</div>
+    <div class="high-score" id="highScoreResult">ベスト: 0匹</div>
+    <button class="btn" id="retryBtn">🔄 もういちど</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
