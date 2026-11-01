@@ -1,0 +1,9 @@
+// Cloudflare Workers の設定（静的ファイルだけを配信する）
+// name は Cloudflare の画面で作る Worker の名前と同じにする
+{
+  "name": "my-games",
+  "compatibility_date": "2026-10-30",
+  "assets": {
+    "directory": "."
+  }
+}
