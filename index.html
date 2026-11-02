@@ -240,6 +240,11 @@
       background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.22)), var(--c);
       border-radius: 0 0 3px 3px;
     }
+    .box.blush { color: #74445d; }
+    .box.blush .box-top { background: linear-gradient(180deg, #fffafd, #fae8ef); }
+    .box.blush .box-top span:last-child { color: #9d4d72; }
+    .box.blush .box-art-img { transform: scale(1.045); }
+    .box.blush .box-title { background: linear-gradient(180deg, #fff6fa, #f6dfe9); text-shadow: 0 1px 0 #fff; }
 
     /* ホバー時の説明オーバーレイ */
     .box-peek {
@@ -398,9 +403,10 @@ const GAMES = [
     genre: "パズル",
     description: "すみっこのキャラたちを積み上げていく、ほっこり可愛いパズルゲーム。",
     iconEmoji: "🧸",
-    heroImage: "screenshots/sumikko.jpg?v=2",
-    gradient: "linear-gradient(135deg, #b0741c, #e8a54b)",
-    accent: "#f2b35c",
+    heroImage: "screenshots/sumikko-package-v3.jpg",
+    gradient: "linear-gradient(135deg, #fffafd, #fae8ef)",
+    accent: "#fae8ef",
+    frameStyle: "blush",
     platform: "ブラウザ",
     url: "sumikko/",
     featured: false,
@@ -410,10 +416,9 @@ const GAMES = [
     genre: "アクション",
     description: "お姫様を操作して高い塔を登り切れ！障害物を避けながら頂上を目指そう。",
     iconEmoji: "👸",
-    heroImage: "screenshots/princess.jpg?v=2",
-    fit: "contain",
-    gradient: "linear-gradient(135deg, #8e2d63, #d64b8f)",
-    accent: "#f06ab0",
+    heroImage: "screenshots/princess-package-v3.jpg",
+    gradient: "linear-gradient(135deg, #64318f, #a966c3)",
+    accent: "#7545a4",
     platform: "ブラウザ",
     url: "princess-tower/",
     featured: false,
@@ -423,9 +428,9 @@ const GAMES = [
     genre: "ランゲーム",
     description: "甘い世界を駆け抜けろ！キャンディを集めながら障害物を避けるランゲーム。",
     iconEmoji: "🍬",
-    heroImage: "screenshots/candy.jpg?v=2",
-    gradient: "linear-gradient(135deg, #7c2d8e, #c94b9d)",
-    accent: "#d76ad0",
+    heroImage: "screenshots/candy-package-v3.jpg",
+    gradient: "linear-gradient(135deg, #a5216d, #eb65a8)",
+    accent: "#b62478",
     platform: "ブラウザ",
     url: "candy-run/",
     featured: false,
@@ -435,9 +440,9 @@ const GAMES = [
     genre: "レーシング",
     description: "バイクを操って障害物をかわしながら走り続けろ！スピード感抜群のレーシングゲーム。",
     iconEmoji: "🏍️",
-    heroImage: "screenshots/bike.jpg",
-    gradient: "linear-gradient(135deg, #9a3412, #e8663c)",
-    accent: "#ff7a4d",
+    heroImage: "screenshots/bike-package-v3.jpg",
+    gradient: "linear-gradient(135deg, #9f2e17, #f28238)",
+    accent: "#b84820",
     platform: "ブラウザ",
     url: "bike-game/",
     featured: false,
@@ -463,7 +468,7 @@ function boxHTML(g, i, slide) {
   const tag = g.url && !slide ? "a" : "div";
   const href = g.url && !slide ? ` href="${esc(g.url)}" target="_blank" rel="noopener"` : "";
   return `
-    <${tag} class="box${slide ? "" : " reveal"}${g.url ? "" : " soon"}"${href} style="--c:${g.accent}; transition-delay:${(i % 4) * 0.07}s" aria-label="${esc(g.title)}">
+    <${tag} class="box${g.frameStyle ? ` ${esc(g.frameStyle)}` : ""}${slide ? "" : " reveal"}${g.url ? "" : " soon"}"${href} style="--c:${g.accent}; transition-delay:${(i % 4) * 0.07}s" aria-label="${esc(g.title)}">
       <div class="box-top"><span>${esc(g.genre)}</span><span>FREE</span></div>
       <div class="box-art">${art}
         <div class="box-peek"><span>${esc(g.description)}</span><b>${g.url ? "▶ PLAY" : "近日公開"}</b></div>
