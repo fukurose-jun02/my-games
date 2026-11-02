@@ -232,6 +232,23 @@
     .box-art-blur { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(14px) brightness(0.8) saturate(1.2); transform: scale(1.2); }
     .box-art-img.is-contain { background-size: contain; background-repeat: no-repeat; }
     .box-art-emoji { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 72px; filter: drop-shadow(0 8px 10px rgba(0,0,0,0.35)); }
+    .cover-logo {
+      position: absolute; z-index: 1; top: 6%; left: 3%; width: 94%;
+      display: grid; justify-items: center; padding: 10px 3px 12px;
+      border-radius: 12px; text-align: center;
+      color: var(--logo-text); font-size: 22px; font-weight: 900;
+      line-height: 1.1; letter-spacing: 0.02em;
+      -webkit-text-stroke: 1.5px var(--logo-outline);
+      paint-order: stroke fill;
+      text-shadow: 0 3px 0 var(--logo-outline), 0 5px 9px rgba(30,10,35,0.5);
+      background: linear-gradient(180deg, var(--logo-back), transparent);
+      pointer-events: none;
+    }
+    .cover-logo.sumikko { --logo-text: #fff8fc; --logo-outline: #9f3d81; --logo-back: rgba(241,107,180,0.8); }
+    .cover-logo.princess { --logo-text: #fff5bd; --logo-outline: #6d3caa; --logo-back: rgba(114,67,174,0.78); }
+    .cover-logo.candy { --logo-text: #fff9f0; --logo-outline: #bd3188; --logo-back: rgba(238,66,154,0.8); }
+    .cover-logo.bike { --logo-text: #fff7d0; --logo-outline: #823111; --logo-back: rgba(232,92,30,0.8); }
+    .slide .cover-logo { font-size: 30px; padding-top: 14px; padding-bottom: 16px; }
     /* 透明フィルムのツヤ */
     .box-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 68%, rgba(255,255,255,0.1) 100%); pointer-events: none; }
     .box-title {
@@ -308,6 +325,7 @@
       .box-top { font-size: 9px; padding: 6px 7px 5px; }
       .box-title { font-size: 12px; padding: 7px 6px 9px; }
       .box-art-emoji { font-size: 54px; }
+      .shelf-row .cover-logo { font-size: 16px; padding-top: 7px; padding-bottom: 9px; }
       .section { padding: 44px 16px 16px; }
       .plate { min-width: 0; flex: 1; padding: 10px 12px 8px; }
     }
@@ -399,6 +417,8 @@ const GAMES = [
     description: "すみっこのキャラたちを積み上げていく、ほっこり可愛いパズルゲーム。",
     iconEmoji: "🧸",
     heroImage: "screenshots/sumikko-cover.jpg",
+    coverLines: ["すみっこ", "つみつみ！"],
+    coverTheme: "sumikko",
     gradient: "linear-gradient(135deg, #b0741c, #e8a54b)",
     accent: "#f2b35c",
     platform: "ブラウザ",
@@ -411,6 +431,8 @@ const GAMES = [
     description: "お姫様を操作して高い塔を登り切れ！障害物を避けながら頂上を目指そう。",
     iconEmoji: "👸",
     heroImage: "screenshots/princess-cover.jpg",
+    coverLines: ["お姫様の", "塔登り"],
+    coverTheme: "princess",
     gradient: "linear-gradient(135deg, #8e2d63, #d64b8f)",
     accent: "#f06ab0",
     platform: "ブラウザ",
@@ -423,6 +445,8 @@ const GAMES = [
     description: "甘い世界を駆け抜けろ！キャンディを集めながら障害物を避けるランゲーム。",
     iconEmoji: "🍬",
     heroImage: "screenshots/candy-cover.jpg",
+    coverLines: ["キャンディ", "ラン"],
+    coverTheme: "candy",
     gradient: "linear-gradient(135deg, #7c2d8e, #c94b9d)",
     accent: "#d76ad0",
     platform: "ブラウザ",
@@ -435,6 +459,8 @@ const GAMES = [
     description: "バイクを操って障害物をかわしながら走り続けろ！スピード感抜群のレーシングゲーム。",
     iconEmoji: "🏍️",
     heroImage: "screenshots/bike-cover.jpg",
+    coverLines: ["バイク", "ゲーム"],
+    coverTheme: "bike",
     gradient: "linear-gradient(135deg, #9a3412, #e8663c)",
     accent: "#ff7a4d",
     platform: "ブラウザ",
@@ -465,6 +491,7 @@ function boxHTML(g, i, slide) {
     <${tag} class="box${slide ? "" : " reveal"}${g.url ? "" : " soon"}"${href} style="--c:${g.accent}; transition-delay:${(i % 4) * 0.07}s" aria-label="${esc(g.title)}">
       <div class="box-top"><span>${esc(g.genre)}</span><span>FREE</span></div>
       <div class="box-art">${art}
+        ${g.coverLines ? `<div class="cover-logo ${esc(g.coverTheme)}" aria-hidden="true">${g.coverLines.map((line) => `<span>${esc(line)}</span>`).join("")}</div>` : ""}
         <div class="box-peek"><span>${esc(g.description)}</span><b>${g.url ? "▶ PLAY" : "近日公開"}</b></div>
       </div>
       <div class="box-title">${esc(g.title)}</div>
