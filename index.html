@@ -23,572 +23,309 @@
 
   <style>
     :root {
-      --bg: #05060a;
-      --bg-soft: #0b0d14;
-      --card: #12141d;
-      --card-2: #1a1d29;
-      --border: rgba(255, 255, 255, 0.07);
-      --border-hover: rgba(255, 255, 255, 0.18);
-      --text: #f5f6f8;
-      --text-2: #9aa0ae;
-      --text-3: #666c7a;
-      --accent: #4da3ff;
-      --radius: 22px;
+      --wall: #ead9bd;
+      --wall-2: #dfcaa6;
+      --wood-1: #c08a52;
+      --wood-2: #a8733f;
+      --wood-3: #8a5a2e;
+      --wood-dark: #5e3b1c;
+      --back: #6a4425;
+      --back-2: #55361c;
+      --ink: #3a2410;
+      --ink-2: #6d5236;
+      --cream: #fff6e3;
       --font-en: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
       --font-jp: "Noto Sans JP", "Hiragino Sans", sans-serif;
+      --box-w: 188px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
       font-family: var(--font-jp);
-      background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
       min-height: 100vh;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      /* 壁紙: やわらかい縦ストライプ + ほんのり陰影 */
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(255,255,255,0.55), transparent 60%),
+        repeating-linear-gradient(90deg, rgba(120,84,40,0.045) 0 2px, transparent 2px 46px),
+        var(--wall);
+      background-attachment: fixed;
     }
 
-    ::selection { background: rgba(77, 163, 255, 0.35); }
-
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: #2a2e3c; border-radius: 5px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3a3f52; }
-
+    ::selection { background: rgba(192, 138, 82, 0.4); }
     a { color: inherit; text-decoration: none; }
+
+    /* 木目（共通） */
+    .wood {
+      background:
+        repeating-linear-gradient(90deg, rgba(60,32,10,0.07) 0 1px, transparent 1px 7px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 9px),
+        linear-gradient(180deg, var(--wood-1), var(--wood-2) 55%, var(--wood-3));
+    }
 
     /* =========================================================
        Navigation
        ========================================================= */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      backdrop-filter: blur(24px) saturate(1.4);
-      -webkit-backdrop-filter: blur(24px) saturate(1.4);
-      background: rgba(5, 6, 10, 0.55);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      border-bottom: 3px solid var(--wood-dark);
+      box-shadow: 0 6px 18px rgba(60,32,10,0.28);
     }
     .nav-inner {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      max-width: 1140px; margin: 0 auto; padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
     }
     .logo {
-      font-family: var(--font-en);
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      background: linear-gradient(90deg, #7db4ff 0%, #b98aff 55%, #ff8ac2 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-family: var(--font-en); font-size: 20px; font-weight: 900; letter-spacing: 0.08em;
+      color: var(--cream); text-shadow: 0 2px 0 rgba(60,32,10,0.55);
     }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: var(--text-2);
-    }
+    .nav-links { display: flex; align-items: center; gap: 24px; font-size: 13.5px; font-weight: 700; color: #fbe9c8; }
     .nav-links a { transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover { color: #fff; }
     .nav-badge {
-      font-family: var(--font-en);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      padding: 5px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border-hover);
-      color: var(--text-2);
+      font-family: var(--font-en); font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+      padding: 5px 12px; border-radius: 6px; background: var(--cream); color: var(--wood-dark);
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.12);
     }
 
     /* =========================================================
-       Hero
+       Top carousel
        ========================================================= */
-    .hero {
-      position: relative;
-      min-height: 94vh;
-      display: flex;
-      align-items: flex-end;
-      overflow: hidden;
+    .stage { width: 100%; margin: 0 auto; padding: 96px 0 8px; text-align: center; overflow: hidden; }
+    .stage-sign {
+      display: inline-block; font-family: var(--font-en); font-size: 12px; font-weight: 800; letter-spacing: 0.16em;
+      color: var(--cream); padding: 7px 18px; border-radius: 6px; margin-bottom: 6px;
+      border: 2px solid var(--wood-dark); box-shadow: 0 3px 0 var(--wood-dark);
     }
-    .hero-bg {
-      position: absolute;
-      inset: -4%;
-      background-size: cover;
-      background-position: center 30%;
-      animation: heroZoom 22s ease-in-out infinite alternate;
-      will-change: transform;
+    .carousel { position: relative; outline: none; }
+    .car-viewport { overflow: hidden; padding: 34px 0 40px; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+    .car-viewport.dragging { cursor: grabbing; }
+    .car-track { position: relative; display: flex; align-items: flex-end; gap: 30px; width: max-content; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1); will-change: transform; }
+    .car-track.no-anim { transition: none; }
+    .slide { flex: 0 0 auto; transform: scale(0.76); opacity: 0.5; transform-origin: 50% 100%; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1), opacity 0.4s; cursor: pointer; }
+    .slide.active { transform: scale(1); opacity: 1; }
+    .slide .box { --bw: min(260px, 62vw); }
+    .slide .box:hover { transform: none; }
+    .slide:not(.active) .box-peek { display: none; }
+    .slide img, .slide .box * { -webkit-user-drag: none; }
+
+    .car-btn {
+      position: absolute; top: 42%; z-index: 10; width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+      border: 2px solid var(--wood-dark); color: var(--cream); font-size: 30px; line-height: 1; font-weight: 700; padding-bottom: 4px;
+      background: linear-gradient(180deg, var(--wood-1), var(--wood-3));
+      box-shadow: 0 4px 0 var(--wood-dark), 0 10px 16px rgba(60,32,10,0.3);
+      transition: transform 0.15s, opacity 0.2s, box-shadow 0.15s;
     }
-    @keyframes heroZoom {
-      from { transform: scale(1); }
-      to   { transform: scale(1.09); }
-    }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(to top, var(--bg) 4%, rgba(5,6,10,0.55) 38%, rgba(5,6,10,0.15) 70%, rgba(5,6,10,0.45) 100%),
-        radial-gradient(ellipse at 20% 90%, rgba(77,163,255,0.18), transparent 55%);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 1140px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 0 24px 9vh;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--font-en);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      color: #ffd76a;
-      background: rgba(255, 215, 106, 0.1);
-      border: 1px solid rgba(255, 215, 106, 0.3);
-      padding: 7px 16px;
-      border-radius: 999px;
-      margin-bottom: 22px;
-      backdrop-filter: blur(8px);
-    }
+    .car-btn:hover:not(:disabled) { transform: translateY(-2px); }
+    .car-btn:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 var(--wood-dark); }
+    .car-btn:disabled { opacity: 0.3; cursor: default; }
+    .car-btn:focus-visible { outline: 3px solid #ffd76a; outline-offset: 3px; }
+    .car-btn.prev { left: max(14px, calc(50% - 540px)); }
+    .car-btn.next { right: max(14px, calc(50% - 540px)); }
+
+    .car-info { padding: 0 24px; min-height: 190px; }
+    .car-info-inner { animation: infoIn 0.4s ease both; }
+    @keyframes infoIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
     .hero-title {
-      font-size: clamp(42px, 7.5vw, 88px);
-      font-weight: 900;
-      line-height: 1.06;
-      letter-spacing: -0.02em;
-      margin-bottom: 18px;
-      text-shadow: 0 6px 40px rgba(0, 0, 0, 0.6);
-      word-break: auto-phrase;
+      font-size: clamp(30px, 5vw, 52px); font-weight: 900; line-height: 1.15; letter-spacing: -0.01em;
+      margin: 12px 0 10px; text-shadow: 0 2px 0 rgba(255,255,255,0.6);
     }
-    .hero-desc {
-      font-size: clamp(15px, 1.6vw, 18px);
-      color: rgba(235, 238, 245, 0.85);
-      max-width: 560px;
-      line-height: 1.8;
-      margin-bottom: 34px;
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
-    }
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    .hero-desc { font-size: clamp(14px, 1.5vw, 16px); color: var(--ink-2); max-width: 520px; margin: 0 auto 20px; line-height: 1.8; font-weight: 500; }
+    .hero-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      color: #0a0b10;
-      font-family: var(--font-jp);
-      font-size: 16px;
-      font-weight: 700;
-      padding: 15px 34px;
-      border-radius: 999px;
-      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1.2), box-shadow 0.25s;
-      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.18);
+      display: inline-flex; align-items: center; gap: 10px; background: #d9482b; color: #fff;
+      font-size: 16px; font-weight: 900; padding: 14px 32px; border-radius: 12px;
+      box-shadow: 0 5px 0 #9c2f18, 0 12px 20px rgba(120,40,20,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
     }
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 14px 44px rgba(255, 255, 255, 0.28);
-    }
-    .btn-primary .arrow { transition: transform 0.25s; }
-    .btn-primary:hover .arrow { transform: translateX(4px); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #9c2f18, 0 16px 24px rgba(120,40,20,0.32); }
+    .btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 #9c2f18; }
     .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-      padding: 15px 28px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.06);
-      transition: background 0.2s, border-color 0.2s;
+      display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 700;
+      padding: 12px 24px; border-radius: 12px; border: 2px solid var(--wood-3); color: var(--wood-dark);
+      background: rgba(255,255,255,0.35); transition: background 0.2s;
     }
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, 0.13);
-      border-color: rgba(255, 255, 255, 0.5);
+    .btn-ghost:hover { background: rgba(255,255,255,0.7); }
+    .chip { display: inline-block; font-size: 12px; font-weight: 700; color: var(--wood-dark); background: rgba(255,246,227,0.8); border: 1px solid rgba(94,59,28,0.3); padding: 5px 13px; border-radius: 999px; margin: 0 3px; }
+
+    .dots { display: flex; justify-content: center; gap: 10px; margin-top: 18px; }
+    .dot {
+      width: 12px; height: 12px; padding: 0; border-radius: 999px; cursor: pointer; border: 2px solid var(--wood-3);
+      background: rgba(255,246,227,0.7); transition: width 0.3s, background 0.3s;
     }
-    .hero-meta {
-      display: flex;
-      gap: 10px;
-      margin-top: 26px;
-    }
-    .chip {
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(235, 238, 245, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.25);
-      padding: 6px 14px;
-      border-radius: 999px;
-      backdrop-filter: blur(8px);
-    }
+    .dot.active { width: 34px; background: var(--wood-3); }
+    .dot:focus-visible { outline: 3px solid #ffd76a; outline-offset: 3px; }
 
     /* =========================================================
-       Stats strip
+       Bookcase
        ========================================================= */
-    .stats {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 56px 24px 8px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .stat {
-      text-align: center;
-      padding: 26px 12px;
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, var(--card) 0%, var(--bg-soft) 100%);
-      border: 1px solid var(--border);
-    }
-    .stat-num {
-      font-family: var(--font-en);
-      font-size: clamp(26px, 3.5vw, 40px);
-      font-weight: 900;
-      background: linear-gradient(90deg, #7db4ff, #b98aff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .stat-label {
-      font-size: 12.5px;
-      color: var(--text-2);
-      margin-top: 6px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-    }
+    .section { max-width: 1140px; margin: 0 auto; padding: 56px 24px 24px; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
+    .section-eyebrow { font-family: var(--font-en); font-size: 12px; font-weight: 800; letter-spacing: 0.18em; color: #b0592f; margin-bottom: 8px; }
+    .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 900; letter-spacing: -0.01em; line-height: 1.15; }
+    .section-count { font-family: var(--font-en); font-size: 13px; font-weight: 800; color: var(--ink-2); padding-bottom: 6px; }
 
-    /* =========================================================
-       Games section
-       ========================================================= */
-    .section {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 72px 24px 40px;
+    .bookcase {
+      position: relative; padding: 0 26px 22px; border-radius: 10px 10px 4px 4px;
+      border: 2px solid var(--wood-dark);
+      box-shadow: 0 30px 40px -18px rgba(60,32,10,0.55), inset 0 0 0 2px rgba(255,255,255,0.12);
     }
-    .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 34px;
+    /* 天板 */
+    .bookcase-top {
+      margin: 0 -26px; height: 26px; border-radius: 8px 8px 0 0;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.18), inset 0 2px 0 rgba(255,255,255,0.25);
     }
-    .section-eyebrow {
-      font-family: var(--font-en);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .section-title {
-      font-size: clamp(28px, 4vw, 44px);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-    }
-    .section-count {
-      font-family: var(--font-en);
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-3);
-      padding-bottom: 6px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 26px;
-    }
-
-    /* ---- Game card ---- */
-    .card {
-      display: flex;
-      flex-direction: column;
-      border-radius: var(--radius);
-      background: var(--card);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1), border-color 0.35s, box-shadow 0.35s;
+    /* 背板（奥の板） */
+    .bookcase-inner {
       position: relative;
-    }
-    .card:hover {
-      transform: translateY(-8px);
-      border-color: var(--border-hover);
-      box-shadow: 0 24px 60px -18px var(--glow, rgba(77, 163, 255, 0.35));
-    }
-
-    .card-banner {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card-banner-img {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
-      z-index: 1;
-    }
-    .card:hover .card-banner-img { transform: scale(1.06); }
-
-    /* fit:"contain" のカードだけ、画像全体を切らずに表示（端の文字が切れる画像用） */
-    .card-banner-blur {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      filter: blur(22px) saturate(1.25) brightness(0.75);
-      transform: scale(1.15);
-      transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-    .card:hover .card-banner-blur { transform: scale(1.22); }
-    .card-banner-img.is-contain {
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-    .card:hover .card-banner-img.is-contain { transform: none; }
-
-    /* 装飾: ぼかした光の玉 */
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(38px);
-      opacity: 0.75;
-      pointer-events: none;
-    }
-    .orb-1 { width: 160px; height: 160px; top: -35px; left: -25px; }
-    .orb-2 { width: 130px; height: 130px; bottom: -35px; right: -15px; }
-
-    /* 装飾: ドットパターン */
-    .card-banner::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255,255,255,0.16) 1px, transparent 1px);
-      background-size: 22px 22px;
-      opacity: 0.35;
-      pointer-events: none;
-    }
-
-    .card-emoji {
-      position: relative;
-      z-index: 2;
-      font-size: 84px;
-      line-height: 1;
-      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.45));
-      animation: floaty 5s ease-in-out infinite;
-      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1.4);
-    }
-    .card:hover .card-emoji { transform: scale(1.14) rotate(-4deg); }
-    @keyframes floaty {
-      0%, 100% { translate: 0 0; }
-      50%      { translate: 0 -12px; }
-    }
-
-    /* 光が走るシャイン演出 */
-    .card-banner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.22) 50%, transparent 58%);
-      transform: translateX(-120%);
-      transition: none;
-      pointer-events: none;
-      z-index: 3;
-    }
-    .card:hover .card-banner::after {
-      transform: translateX(120%);
-      transition: transform 0.9s ease;
-    }
-
-    .card-body {
-      padding: 22px 22px 24px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    .card-tags {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-    .tag {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      padding: 4px 11px;
-      border-radius: 999px;
-      color: var(--tag-color, var(--accent));
-      background: color-mix(in srgb, var(--tag-color, var(--accent)) 14%, transparent);
-      border: 1px solid color-mix(in srgb, var(--tag-color, var(--accent)) 35%, transparent);
-    }
-    .tag.plain {
-      color: var(--text-2);
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--border);
-    }
-    .card-title {
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      margin-bottom: 8px;
-    }
-    .card-desc {
-      font-size: 13.5px;
-      color: var(--text-2);
-      line-height: 1.75;
-      flex: 1;
-      margin-bottom: 20px;
-    }
-    .card-play {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 14.5px;
-      font-weight: 700;
-      padding: 12px 0;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid var(--border);
-      transition: background 0.25s, border-color 0.25s, color 0.25s;
-    }
-    .card:hover .card-play {
-      background: var(--tag-color, var(--accent));
-      border-color: transparent;
-      color: #fff;
-    }
-    .card-play .arrow { transition: transform 0.25s; }
-    .card:hover .card-play .arrow { transform: translateX(4px); }
-
-    /* =========================================================
-       CTA band
-       ========================================================= */
-    .cta-band {
-      max-width: 1140px;
-      margin: 48px auto 0;
-      padding: 0 24px;
-    }
-    .cta-inner {
-      border-radius: 28px;
-      padding: clamp(40px, 6vw, 72px) clamp(24px, 5vw, 64px);
-      text-align: center;
       background:
-        radial-gradient(ellipse at 30% 0%, rgba(77, 163, 255, 0.22), transparent 55%),
-        radial-gradient(ellipse at 75% 100%, rgba(185, 138, 255, 0.2), transparent 55%),
-        var(--card);
-      border: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.14) 0 2px, transparent 2px 120px),
+        linear-gradient(180deg, var(--back-2), var(--back));
+      box-shadow: inset 0 18px 26px rgba(0,0,0,0.38), inset 12px 0 18px rgba(0,0,0,0.25), inset -12px 0 18px rgba(0,0,0,0.25);
     }
-    .cta-title {
-      font-size: clamp(24px, 3.6vw, 40px);
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
+    .shelf-row { position: relative; display: flex; align-items: flex-end; justify-content: center; gap: 22px; padding: 38px 18px 0; min-height: 120px; }
+    .shelf-board {
+      height: 22px; width: 100%;
+      background:
+        repeating-linear-gradient(90deg, rgba(60,32,10,0.08) 0 1px, transparent 1px 9px),
+        linear-gradient(180deg, #d09a60, var(--wood-2) 40%, var(--wood-3));
+      border-top: 2px solid rgba(255,255,255,0.28);
+      box-shadow: 0 8px 12px rgba(0,0,0,0.4), inset 0 -3px 0 rgba(0,0,0,0.2);
     }
-    .cta-desc {
-      color: var(--text-2);
-      font-size: 15px;
-      line-height: 1.8;
-      margin-bottom: 30px;
-    }
+    .bookcase-base { margin: 0 -26px -22px; height: 34px; border-radius: 0 0 4px 4px; box-shadow: inset 0 3px 0 rgba(255,255,255,0.2), inset 0 -4px 0 rgba(0,0,0,0.2); }
 
     /* =========================================================
-       Footer
+       Game package box
        ========================================================= */
-    footer {
-      margin-top: 90px;
-      border-top: 1px solid var(--border);
-      padding: 44px 24px 52px;
+    .box {
+      --bw: var(--box-w);
+      position: relative; display: block; width: var(--bw); flex: 0 0 auto;
+      color: #fff; background: var(--c, #4da3ff);
+      border-radius: 5px 5px 3px 3px;
+      transform-origin: 50% 100%;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.35), 6px 0 0 -1px rgba(0,0,0,0.28), 0 14px 18px -6px rgba(0,0,0,0.55);
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1.15), box-shadow 0.35s;
+      outline-offset: 6px;
     }
-    .footer-inner {
-      max-width: 1140px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
+    /* 箱の右側面（厚み） */
+    .box::after {
+      content: ""; position: absolute; top: 2px; bottom: 0; left: 100%; width: 9px;
+      background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.25));
+      border-radius: 0 3px 3px 0; transform: skewY(-6deg); transform-origin: left top; pointer-events: none;
     }
-    .footer-logo {
-      font-family: var(--font-en);
-      font-weight: 900;
-      font-size: 16px;
-      letter-spacing: 0.04em;
-      color: var(--text-2);
+    .box-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 6px;
+      padding: 7px 9px 6px; font-family: var(--font-en); font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+      background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0)), var(--c);
+      border-radius: 5px 5px 0 0;
     }
-    .footer-note {
-      font-size: 12.5px;
-      color: var(--text-3);
+    .box-top span:last-child { background: rgba(255,255,255,0.92); color: var(--c); padding: 1px 7px; border-radius: 3px; }
+    .box-art { position: relative; aspect-ratio: 3 / 3.4; overflow: hidden; background: #222; margin: 0 5px; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4); }
+    .box-art-img { position: absolute; inset: 0; background-size: cover; background-position: center; }
+    .box-art-blur { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(14px) brightness(0.8) saturate(1.2); transform: scale(1.2); }
+    .box-art-img.is-contain { background-size: contain; background-repeat: no-repeat; }
+    .box-art-emoji { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 72px; filter: drop-shadow(0 8px 10px rgba(0,0,0,0.35)); }
+    /* 透明フィルムのツヤ */
+    .box-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 68%, rgba(255,255,255,0.1) 100%); pointer-events: none; }
+    .box-title {
+      padding: 9px 8px 11px; text-align: center; font-weight: 900; font-size: 14px; line-height: 1.3; letter-spacing: 0.02em;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+      background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.22)), var(--c);
+      border-radius: 0 0 3px 3px;
     }
-    .footer-note a {
-      color: var(--text-2);
-      border-bottom: 1px solid var(--border-hover);
-      transition: color 0.2s;
+
+    /* ホバー時の説明オーバーレイ */
+    .box-peek {
+      position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px;
+      padding: 10px; font-size: 11.5px; line-height: 1.6; font-weight: 500; color: #fff;
+      background: linear-gradient(180deg, rgba(20,10,0,0) 20%, rgba(20,10,0,0.88));
+      opacity: 0; transition: opacity 0.25s; z-index: 2;
     }
-    .footer-note a:hover { color: var(--text); }
+    .box-peek b { display: inline-block; align-self: flex-start; background: #fff; color: var(--c); padding: 3px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 900; }
+    @media (hover: hover) {
+      .box:hover { transform: translateY(-16px) rotate(-2.5deg) scale(1.03); box-shadow: 0 0 0 1px rgba(0,0,0,0.35), 6px 0 0 -1px rgba(0,0,0,0.28), 0 30px 26px -10px rgba(0,0,0,0.6); z-index: 6; }
+      .box:hover .box-peek { opacity: 1; }
+    }
+    .box:focus-visible { outline: 3px solid #ffd76a; }
+    .box:focus-visible .box-peek { opacity: 1; }
+    .box.soon { pointer-events: none; filter: grayscale(0.8) brightness(0.9); }
+
+    /* 近日公開（空きスロット） */
+    .slot-empty {
+      width: var(--box-w); flex: 0 0 auto; aspect-ratio: 3 / 4.3; margin-bottom: 0; border-radius: 6px;
+      border: 2px dashed rgba(255,235,200,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+      color: rgba(255,235,200,0.65); font-family: var(--font-en); font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-align: center;
+    }
+    .slot-empty span:first-child { font-size: 34px; opacity: 0.8; }
+
+    /* 棚に置く小さな飾り板（件数など） */
+    .plates { display: flex; justify-content: center; gap: 14px; margin-top: 44px; flex-wrap: wrap; }
+    .plate {
+      min-width: 150px; text-align: center; padding: 12px 22px 10px; border-radius: 6px; color: var(--cream);
+      border: 2px solid var(--wood-dark); box-shadow: 0 4px 0 var(--wood-dark), 0 10px 14px rgba(60,32,10,0.25);
+    }
+    .plate-num { font-family: var(--font-en); font-size: 28px; font-weight: 900; text-shadow: 0 2px 0 rgba(0,0,0,0.35); }
+    .plate-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; opacity: 0.9; }
 
     /* =========================================================
-       Scroll reveal
+       CTA / Footer
        ========================================================= */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.25, 1);
+    .cta-band { max-width: 1140px; margin: 40px auto 0; padding: 0 24px; }
+    .cta-inner {
+      text-align: center; border-radius: 14px; padding: clamp(32px, 5vw, 56px) 24px;
+      background: var(--cream); border: 2px solid var(--wood-3);
+      box-shadow: 0 0 0 6px rgba(255,246,227,0.5), 0 14px 26px rgba(60,32,10,0.2);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .cta-title { font-size: clamp(22px, 3.4vw, 34px); font-weight: 900; margin-bottom: 10px; }
+    .cta-desc { color: var(--ink-2); font-size: 14.5px; line-height: 1.8; margin-bottom: 24px; }
+
+    footer { margin-top: 80px; padding: 34px 24px 40px; border-top: 3px solid var(--wood-dark); }
+    .footer-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .footer-logo { font-family: var(--font-en); font-weight: 900; font-size: 16px; letter-spacing: 0.08em; color: var(--cream); text-shadow: 0 2px 0 rgba(60,32,10,0.5); }
+    .footer-note { font-size: 12.5px; color: #f3dcb4; }
+    .footer-note a { border-bottom: 1px solid rgba(255,255,255,0.4); }
+    .footer-note a:hover { color: #fff; }
+
+    /* 登場アニメーション */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.25, 1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .box.reveal.visible { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.25, 1.15), box-shadow 0.35s, opacity 0.6s; }
 
     @media (prefers-reduced-motion: reduce) {
-      .hero-bg, .card-emoji { animation: none; }
       .reveal { opacity: 1; transform: none; transition: none; }
+      .box { transition: none; }
     }
 
     @media (max-width: 640px) {
-      .hero { min-height: 82vh; }
-      .stats { grid-template-columns: repeat(3, 1fr); gap: 10px; padding-top: 40px; }
-      .stat { padding: 18px 8px; }
-      .nav-links { gap: 16px; }
+      :root { --box-w: 138px; }
       .nav-links .nav-link-text { display: none; }
-      .grid { grid-template-columns: 1fr; }
-      .section { padding: 56px 20px 24px; }
+      .car-btn { width: 42px; height: 42px; font-size: 24px; top: 38%; }
+      .car-btn.prev { left: 6px; } .car-btn.next { right: 6px; }
+      .car-viewport { padding: 24px 0 30px; }
+      .car-track { gap: 18px; }
+      .stage { padding-top: 84px; }
+      .bookcase { padding: 0 12px 18px; }
+      .bookcase-top, .bookcase-base { margin-left: -12px; margin-right: -12px; }
+      .shelf-row { gap: 16px; padding: 30px 6px 0; }
+      .box-top { font-size: 9px; padding: 6px 7px 5px; }
+      .box-title { font-size: 12px; padding: 7px 6px 9px; }
+      .box-art-emoji { font-size: 54px; }
+      .section { padding: 44px 16px 16px; }
+      .plate { min-width: 0; flex: 1; padding: 10px 12px 8px; }
     }
   </style>
 </head>
 <body>
 
-<nav>
+<nav class="wood">
   <div class="nav-inner">
     <a class="logo" href="#top">MY GAMES</a>
     <div class="nav-links">
-      <a class="nav-link-text" href="#games">ゲーム一覧</a>
+      <a class="nav-link-text" href="#games">本棚へ</a>
       <a href="https://github.com/fukurose-jun02" target="_blank" rel="noopener">GitHub</a>
       <span class="nav-badge" id="nav-count"></span>
     </div>
@@ -596,32 +333,47 @@
 </nav>
 
 <main id="top">
-  <section class="hero" id="hero"></section>
-  <section class="stats" id="stats"></section>
+  <section class="stage" id="stage">
+    <div class="stage-sign wood">★ PICK UP GAMES</div>
+    <div class="carousel" id="carousel" tabindex="0" role="group" aria-roledescription="carousel" aria-label="ゲーム一覧">
+      <div class="car-viewport" id="viewport"><div class="car-track" id="track"></div></div>
+      <button class="car-btn prev" id="prev" type="button" aria-label="前のゲーム">‹</button>
+      <button class="car-btn next" id="next" type="button" aria-label="次のゲーム">›</button>
+    </div>
+    <div class="car-info" id="info" aria-live="polite"></div>
+    <div class="dots" id="dots" role="tablist" aria-label="ゲームを選ぶ"></div>
+  </section>
+
   <section class="section" id="games">
     <div class="section-head reveal">
       <div>
-        <div class="section-eyebrow">ALL GAMES</div>
-        <h2 class="section-title">すべてのゲーム</h2>
+        <div class="section-eyebrow">MY GAME SHELF</div>
+        <h2 class="section-title">ゲームの本棚</h2>
       </div>
       <div class="section-count" id="game-count"></div>
     </div>
-    <div class="grid" id="grid"></div>
+    <div class="bookcase wood">
+      <div class="bookcase-top wood"></div>
+      <div class="bookcase-inner" id="shelves"></div>
+      <div class="bookcase-base wood"></div>
+    </div>
+    <div class="plates" id="stats"></div>
   </section>
+
   <section class="cta-band reveal">
     <div class="cta-inner">
       <h2 class="cta-title">新作、続々開発中。</h2>
-      <p class="cta-desc">すべてのゲームはブラウザだけで動きます。インストール不要、今すぐ無料でプレイ。</p>
-      <a class="btn-primary" href="#games">ゲームを選ぶ <span class="arrow">↓</span></a>
+      <p class="cta-desc">棚にはまだ空きがあります。すべてのゲームはブラウザだけで動くので、インストール不要・無料でプレイできます。</p>
+      <a class="btn-primary" href="#games">箱を選ぶ <span class="arrow">↑</span></a>
     </div>
   </section>
 </main>
 
-<footer>
+<footer class="wood">
   <div class="footer-inner">
     <div class="footer-logo">MY GAMES</div>
     <div class="footer-note">
-      &copy; 2026 <a href="https://github.com/fukurose-jun02" target="_blank" rel="noopener">fukurose-jun02</a> · All games developed independently · v2.1.0
+      &copy; 2026 <a href="https://github.com/fukurose-jun02" target="_blank" rel="noopener">fukurose-jun02</a> · All games developed independently · v3.0.0
     </div>
   </div>
 </footer>
@@ -712,80 +464,162 @@ const GAMES = [
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-function renderHero(game) {
-  if (!game) return;
-  const hero = document.getElementById("hero");
-  const bg = game.heroImage
-    ? `background-image: url('${esc(game.heroImage)}');`
-    : `background: ${game.gradient};`;
-
-  hero.innerHTML = `
-    <div class="hero-bg" style="${bg}"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <div class="hero-badge">★ FEATURED GAME</div>
-      <h1 class="hero-title">${esc(game.title)}</h1>
-      <p class="hero-desc">${esc(game.description)}</p>
-      <div class="hero-actions">
-        ${game.url
-          ? `<a class="btn-primary" href="${esc(game.url)}" target="_blank" rel="noopener">今すぐ遊ぶ <span class="arrow">→</span></a>`
-          : `<span class="btn-ghost">近日公開</span>`}
-        <a class="btn-ghost" href="#games">ゲーム一覧を見る</a>
+/* ゲームのパッケージ箱 */
+function boxHTML(g, i, slide) {
+  const art = g.heroImage
+    ? (g.fit === "contain"
+        ? `<div class="box-art-blur" style="background-image:url('${esc(g.heroImage)}')"></div>
+           <div class="box-art-img is-contain" style="background-image:url('${esc(g.heroImage)}')"></div>`
+        : `<div class="box-art-img" style="background-image:url('${esc(g.heroImage)}')"></div>`)
+    : `<div class="box-art-img" style="background:${g.gradient}"></div>
+       <div class="box-art-emoji">${g.iconEmoji || "🎮"}</div>`;
+  const tag = g.url && !slide ? "a" : "div";
+  const href = g.url && !slide ? ` href="${esc(g.url)}" target="_blank" rel="noopener"` : "";
+  return `
+    <${tag} class="box${slide ? "" : " reveal"}${g.url ? "" : " soon"}"${href} style="--c:${g.accent}; transition-delay:${(i % 4) * 0.07}s" aria-label="${esc(g.title)}">
+      <div class="box-top"><span>${esc(g.genre)}</span><span>FREE</span></div>
+      <div class="box-art">${art}
+        <div class="box-peek"><span>${esc(g.description)}</span><b>${g.url ? "▶ PLAY" : "近日公開"}</b></div>
       </div>
-      <div class="hero-meta">
-        <span class="chip">${esc(game.genre)}</span>
-        <span class="chip">${esc(game.platform)}</span>
-        <span class="chip">無料</span>
-      </div>
-    </div>`;
+      <div class="box-title">${esc(g.title)}</div>
+    </${tag}>`;
 }
 
-function renderCards(games) {
-  const grid = document.getElementById("grid");
-  grid.innerHTML = games.map((g, i) => {
-    const banner = g.heroImage
-      ? (g.fit === "contain"
-          ? `<div class="card-banner-blur" style="background-image:url('${esc(g.heroImage)}')"></div>
-             <div class="card-banner-img is-contain" style="background-image:url('${esc(g.heroImage)}')"></div>`
-          : `<div class="card-banner-img" style="background-image:url('${esc(g.heroImage)}')"></div>`)
-      : `<div class="card-banner-img" style="background:${g.gradient}"></div>
-         <span class="orb orb-1" style="background:${g.accent}"></span>
-         <span class="orb orb-2" style="background:${g.accent}"></span>
-         <span class="card-emoji" style="animation-delay:${(i * 0.6).toFixed(1)}s">${g.iconEmoji || "🎮"}</span>`;
+/* トップのカルーセル（自動再生なし。スワイプ・左右ボタン・キー・ドットで切り替え） */
+function renderCarousel(games, startIndex) {
+  const track = document.getElementById("track");
+  const viewport = document.getElementById("viewport");
+  const carousel = document.getElementById("carousel");
+  const info = document.getElementById("info");
+  const dots = document.getElementById("dots");
+  const prev = document.getElementById("prev");
+  const next = document.getElementById("next");
+  let idx = startIndex, dragging = false, moved = false, startX = 0, baseX = 0, pointerId = null;
 
-    const play = g.url
-      ? `<a class="card-play" href="${esc(g.url)}" target="_blank" rel="noopener">今すぐプレイ <span class="arrow">→</span></a>`
-      : `<span class="card-play" style="opacity:.5">近日公開</span>`;
+  track.innerHTML = games.map((g, i) => `<div class="slide" data-i="${i}">${boxHTML(g, i, true)}</div>`).join("");
+  dots.innerHTML = games.map((g, i) => `<button class="dot" type="button" role="tab" data-i="${i}" aria-label="${esc(g.title)}"></button>`).join("");
+  const slides = [...track.children];
+  const dotEls = [...dots.children];
 
-    return `
-      <article class="card reveal" style="--tag-color:${g.accent}; --glow:${g.accent}55; transition-delay:${(i % 3) * 0.08}s">
-        <div class="card-banner">${banner}</div>
-        <div class="card-body">
-          <div class="card-tags">
-            <span class="tag">${esc(g.genre)}</span>
-            <span class="tag plain">${esc(g.platform)}</span>
-          </div>
-          <h3 class="card-title">${esc(g.title)}</h3>
-          <p class="card-desc">${esc(g.description)}</p>
-          ${play}
+  const offsetFor = (i) => viewport.clientWidth / 2 - (slides[i].offsetLeft + slides[i].offsetWidth / 2);
+
+  function renderInfo() {
+    const g = games[idx];
+    info.innerHTML = `
+      <div class="car-info-inner" key="${idx}">
+        <span class="chip">${esc(g.genre)}</span><span class="chip">${esc(g.platform)}</span><span class="chip">無料</span>
+        <h1 class="hero-title">${esc(g.title)}</h1>
+        <p class="hero-desc">${esc(g.description)}</p>
+        <div class="hero-actions">
+          ${g.url
+            ? `<a class="btn-primary" href="${esc(g.url)}" target="_blank" rel="noopener">今すぐ遊ぶ <span class="arrow">→</span></a>`
+            : `<span class="btn-ghost">近日公開</span>`}
+          <a class="btn-ghost" href="#games">本棚を見る</a>
         </div>
-      </article>`;
-  }).join("");
+      </div>`;
+  }
+
+  function go(i, animate = true, updateInfo = true) {
+    const changed = i !== idx;
+    idx = Math.max(0, Math.min(games.length - 1, i));
+    track.classList.toggle("no-anim", !animate);
+    track.style.transform = `translateX(${offsetFor(idx)}px)`;
+    slides.forEach((el, n) => el.classList.toggle("active", n === idx));
+    dotEls.forEach((el, n) => { el.classList.toggle("active", n === idx); el.setAttribute("aria-selected", n === idx); });
+    prev.disabled = idx === 0;
+    next.disabled = idx === games.length - 1;
+    if (updateInfo && (changed || !info.firstChild)) renderInfo();
+  }
+
+  prev.addEventListener("click", () => go(idx - 1));
+  next.addEventListener("click", () => go(idx + 1));
+  dots.addEventListener("click", (e) => { const d = e.target.closest(".dot"); if (d) go(+d.dataset.i); });
+  carousel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") { go(idx - 1); e.preventDefault(); }
+    if (e.key === "ArrowRight") { go(idx + 1); e.preventDefault(); }
+  });
+
+  /* スワイプ / ドラッグ */
+  viewport.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragging = true; moved = false; startX = e.clientX; pointerId = e.pointerId;
+    baseX = offsetFor(idx);
+  });
+  viewport.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    if (!moved && Math.abs(dx) > 6) {
+      moved = true;
+      viewport.classList.add("dragging");
+      track.classList.add("no-anim");
+      try { viewport.setPointerCapture(pointerId); } catch (_) {}
+    }
+    if (moved) {
+      /* 端では引っ張りを重くする */
+      const over = (idx === 0 && dx > 0) || (idx === games.length - 1 && dx < 0);
+      track.style.transform = `translateX(${baseX + (over ? dx * 0.3 : dx)}px)`;
+    }
+  });
+  const endDrag = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    viewport.classList.remove("dragging");
+    if (!moved) return;
+    const dx = e.clientX - startX;
+    const thr = Math.max(40, slides[idx].offsetWidth * 0.18);
+    track.classList.remove("no-anim");
+    go(dx < -thr ? idx + 1 : dx > thr ? idx - 1 : idx);
+    setTimeout(() => { moved = false; }, 0);
+  };
+  viewport.addEventListener("pointerup", endDrag);
+  viewport.addEventListener("pointercancel", endDrag);
+
+  /* スライドのクリック: 横の箱は中央へ、中央の箱はゲームを開く */
+  track.addEventListener("click", (e) => {
+    if (moved) return;
+    const el = e.target.closest(".slide");
+    if (!el) return;
+    const i = +el.dataset.i;
+    if (i !== idx) go(i);
+    else if (games[i].url) window.open(games[i].url, "_blank", "noopener");
+  });
+
+  addEventListener("resize", () => go(idx, false, false));
+  go(idx, false);
+  /* フォント読み込み後に位置を合わせ直す */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => go(idx, false, false));
+}
+
+/* 棚の1段あたりの箱の数を、画面幅から計算して段に分ける */
+let lastPerRow = 0;
+function renderShelves(games, force) {
+  const inner = document.getElementById("shelves");
+  const boxW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--box-w")) || 188;
+  const gap = innerWidth <= 640 ? 16 : 22;
+  const avail = inner.clientWidth - (innerWidth <= 640 ? 12 : 36);
+  const perRow = Math.max(1, Math.floor((avail + gap) / (boxW + gap)));
+  if (!force && perRow === lastPerRow) return;
+  lastPerRow = perRow;
+
+  const items = games.map((g, i) => boxHTML(g, i));
+  items.push(`<div class="slot-empty reveal"><span>＋</span><span>COMING<br>SOON</span></div>`);
+  let html = "";
+  for (let i = 0; i < items.length; i += perRow) {
+    html += `<div class="shelf-row">${items.slice(i, i + perRow).join("")}</div><div class="shelf-board"></div>`;
+  }
+  inner.innerHTML = html;
+  inner.querySelectorAll(".reveal").forEach(observe);
 }
 
 function renderStats(games) {
   const genres = new Set(games.map((g) => g.genre)).size;
   document.getElementById("stats").innerHTML = `
-    <div class="stat reveal"><div class="stat-num">${games.length}</div><div class="stat-label">公開タイトル</div></div>
-    <div class="stat reveal" style="transition-delay:.08s"><div class="stat-num">${genres}</div><div class="stat-label">ジャンル</div></div>
-    <div class="stat reveal" style="transition-delay:.16s"><div class="stat-num">FREE</div><div class="stat-label">すべて無料</div></div>`;
+    <div class="plate wood reveal"><div class="plate-num">${games.length}</div><div class="plate-label">公開タイトル</div></div>
+    <div class="plate wood reveal" style="transition-delay:.08s"><div class="plate-num">${genres}</div><div class="plate-label">ジャンル</div></div>
+    <div class="plate wood reveal" style="transition-delay:.16s"><div class="plate-num">FREE</div><div class="plate-label">すべて無料</div></div>`;
   document.getElementById("game-count").textContent = `${games.length} TITLES`;
   document.getElementById("nav-count").textContent = `${games.length} GAMES`;
 }
-
-renderHero(GAMES.find((g) => g.featured) || GAMES[0]);
-renderStats(GAMES);
-renderCards(GAMES);
 
 const io = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
@@ -795,7 +629,15 @@ const io = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.12 });
-document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+function observe(el) { io.observe(el); }
+
+renderCarousel(GAMES, Math.max(0, GAMES.findIndex((g) => g.featured)));
+renderStats(GAMES);
+renderShelves(GAMES, true);
+document.querySelectorAll(".reveal").forEach(observe);
+
+let t;
+addEventListener("resize", () => { clearTimeout(t); t = setTimeout(() => renderShelves(GAMES), 120); });
 </script>
 </body>
 </html>
