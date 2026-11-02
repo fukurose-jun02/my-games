@@ -240,6 +240,10 @@
       background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.22)), var(--c);
       border-radius: 0 0 3px 3px;
     }
+    .box.butter { color: #74445d; }
+    .box.butter .box-top { background: linear-gradient(180deg, #fff2c8, #f6dda5); }
+    .box.butter .box-top span:last-child { color: #9d4d72; }
+    .box.butter .box-title { background: linear-gradient(180deg, #ffefc4, #efd397); text-shadow: 0 1px 0 #fff9e6; }
 
     /* ホバー時の説明オーバーレイ */
     .box-peek {
@@ -399,8 +403,9 @@ const GAMES = [
     description: "すみっこのキャラたちを積み上げていく、ほっこり可愛いパズルゲーム。",
     iconEmoji: "🧸",
     heroImage: "screenshots/sumikko-package-v3.jpg",
-    gradient: "linear-gradient(135deg, #a72f70, #e873b0)",
-    accent: "#b92e7a",
+    gradient: "linear-gradient(135deg, #fff2c8, #f6dda5)",
+    accent: "#f6dda5",
+    frameStyle: "butter",
     platform: "ブラウザ",
     url: "sumikko/",
     featured: false,
@@ -462,7 +467,7 @@ function boxHTML(g, i, slide) {
   const tag = g.url && !slide ? "a" : "div";
   const href = g.url && !slide ? ` href="${esc(g.url)}" target="_blank" rel="noopener"` : "";
   return `
-    <${tag} class="box${slide ? "" : " reveal"}${g.url ? "" : " soon"}"${href} style="--c:${g.accent}; transition-delay:${(i % 4) * 0.07}s" aria-label="${esc(g.title)}">
+    <${tag} class="box${g.frameStyle ? ` ${esc(g.frameStyle)}` : ""}${slide ? "" : " reveal"}${g.url ? "" : " soon"}"${href} style="--c:${g.accent}; transition-delay:${(i % 4) * 0.07}s" aria-label="${esc(g.title)}">
       <div class="box-top"><span>${esc(g.genre)}</span><span>FREE</span></div>
       <div class="box-art">${art}
         <div class="box-peek"><span>${esc(g.description)}</span><b>${g.url ? "▶ PLAY" : "近日公開"}</b></div>
